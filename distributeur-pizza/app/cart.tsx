@@ -47,14 +47,14 @@ export default function CartPage() {
       prevPizzas.map((pizza) =>
         pizza.id === id
           ? {
-              ...pizza,
-              quantity:
-                action === "increment"
-                  ? pizza.quantity + 1
-                  : pizza.quantity > 1
+            ...pizza,
+            quantity:
+              action === "increment"
+                ? pizza.quantity + 1
+                : pizza.quantity > 1
                   ? pizza.quantity - 1
                   : pizza.quantity,
-            }
+          }
           : pizza
       )
     );
@@ -106,23 +106,27 @@ export default function CartPage() {
   return (
     <View style={styles.container}>
       <Navbar />
-      <Text style={styles.cartTitle}>Panier</Text>
-      <FlatList
-        data={pizzas}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-      />
-      <View style={styles.totalContainer}>
-        <Text style={styles.totalText}>
-          Total: {calculateTotal().toFixed(2)}€
-        </Text>
+
+      <View style={styles.content}>
+        <Text style={styles.heading}>Votre Panier</Text>
+        <FlatList
+          data={pizzas}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          style={styles.flatList} // Ajout du style flatList
+        />
+        <View style={styles.totalContainer}>
+          <Text style={styles.totalText}>
+            Total: {calculateTotal().toFixed(2)}€
+          </Text>
+        </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => Alert.alert("Commande validée !")}
+        >
+          <Text style={styles.buttonText}>Valider le panier</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        style={styles.validateButton}
-        onPress={() => Alert.alert("Commande validée !")}
-      >
-        <Text style={styles.validateButtonText}>Valider le panier</Text>
-      </TouchableOpacity>
 
       <Footer />
     </View>
@@ -132,29 +136,38 @@ export default function CartPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    backgroundColor: "#fff",
   },
-  cartTitle: {
-    // Style pour le titre "Panier"
-    fontSize: 28,
+  content: {
+    marginTop: 100,
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  heading: {
+    fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 16,
-    textAlign: "center",
-    color: "#333",
+    color: "#E0B044",
+    marginBottom: 20,
+  },
+  flatList: {
+    flex: 1,
+    width: "100%", // Assure que la FlatList prend toute la largeur
   },
   item: {
+    width: "100%",
     backgroundColor: "#f9f9f9",
-    marginVertical: 8,
+    marginVertical: 12,
     borderRadius: 8,
     overflow: "hidden",
-    position: "relative",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 8,
-    backgroundColor: "#E0B044",
     alignItems: "center",
+    padding: 12,
+    backgroundColor: "#E0B044",
   },
   headerText: {
     fontSize: 18,
@@ -163,13 +176,13 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 150,
+    height: 200,
   },
   footer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 8,
+    padding: 12,
   },
   price: {
     fontSize: 18,
@@ -182,14 +195,16 @@ const styles = StyleSheet.create({
   },
   quantityButton: {
     backgroundColor: "#e06244",
-    padding: 5,
+    padding: 8,
     borderRadius: 4,
     marginHorizontal: 4,
+    width: 30,
   },
   quantityText: {
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+    color: "#000",
   },
   removeButton: {
     backgroundColor: "#e06244",
@@ -201,24 +216,24 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   totalContainer: {
-    marginTop: 20,
-    alignItems: "center",
+    alignItems: "flex-end",
+    marginVertical: 12,
   },
   totalText: {
     fontSize: 22,
     fontWeight: "bold",
+    color: "#000",
   },
-  validateButton: {
+  button: {
     backgroundColor: "#E0B044",
-    marginBottom: 20,
-    padding: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     borderRadius: 8,
-    alignItems: "center",
-    marginTop: 16,
+    marginTop: 20,
   },
-  validateButtonText: {
-    color: "white",
+  buttonText: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#000",
   },
 });

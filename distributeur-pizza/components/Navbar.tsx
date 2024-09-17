@@ -7,8 +7,10 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <View style={styles.nav}>
-      <Image source={require("../assets/logo.png")} style={styles.logo} />
+    <View style={styles.nav}>      
+      <TouchableOpacity onPress={() => router.push("/")}>
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
+      </TouchableOpacity>
 
       {/* Bouton Panier */}
       <TouchableOpacity
