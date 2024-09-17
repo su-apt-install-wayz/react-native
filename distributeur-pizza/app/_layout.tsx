@@ -7,7 +7,7 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <Stack>
-        <Stack.Screen name="index" />
+        <Stack.Screen name="liste_pizza" />
       </Stack>
     </Provider>
   );
