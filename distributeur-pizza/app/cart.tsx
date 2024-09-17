@@ -8,6 +8,8 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 interface Pizza {
   id: number;
@@ -20,7 +22,7 @@ interface Pizza {
 const pizzasData: Pizza[] = [
   {
     id: 1,
-    name: "Margherita",
+    name: "Margherita 1",
     price: 8.99,
     imageUrl:
       "https://img.cuisineaz.com/660x660/2013/12/20/i18445-margherite.jpeg",
@@ -103,6 +105,7 @@ export default function CartPage() {
 
   return (
     <View style={styles.container}>
+      <Navbar />
       <Text style={styles.cartTitle}>Panier</Text>
       <FlatList
         data={pizzas}
@@ -120,6 +123,8 @@ export default function CartPage() {
       >
         <Text style={styles.validateButtonText}>Valider le panier</Text>
       </TouchableOpacity>
+
+      <Footer />
     </View>
   );
 }
@@ -205,6 +210,7 @@ const styles = StyleSheet.create({
   },
   validateButton: {
     backgroundColor: "#E0B044",
+    marginBottom: 20,
     padding: 16,
     borderRadius: 8,
     alignItems: "center",
