@@ -1,32 +1,48 @@
-import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const Navbar = () => {
+  const router = useRouter();
+
   return (
     <View style={styles.nav}>
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
+      <Image source={require("../assets/logo.png")} style={styles.logo} />
+
+      {/* Bouton Panier */}
+      <TouchableOpacity
+        onPress={() => router.push("/cart")}
+        style={styles.cartButton}
+      >
+        <Ionicons name="cart-outline" size={30} color="#333" />
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   nav: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
-    width: '100%',
+    width: "100%",
     height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.15,
     zIndex: 100,
   },
   logo: {
     maxWidth: 130,
-    resizeMode: 'contain',
+    resizeMode: "contain",
+  },
+  cartButton: {
+    padding: 10,
   },
 });
 
