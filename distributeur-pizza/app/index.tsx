@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Image, FlatList, TouchableOpacity, StyleSheet, Alert, Modal, Button } from "react-native";
 import axios from 'axios';
+import { store } from './redux/store';
+import { useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
+import { addToCart } from './redux/cartSlice';
 
 // Définir l'interface Pizza pour TypeScript
 interface Pizza {
@@ -32,6 +36,8 @@ export default function ProductList() {
     fetchPizzas();
   }, []);
 
+  const dispatch = useDispatch();
+
   const renderItem = ({ item }: { item: Pizza }) => (
     <View style={styles.item}>
       <Image source={{ uri: item.image_url }} style={styles.image} />
@@ -41,12 +47,18 @@ export default function ProductList() {
       <View style={styles.footer}>
         <Text style={styles.price}>{item.price}€</Text>
         <View style={styles.buttonContainer}>
+          {/* Bouton Ajouter au panier */}
           <TouchableOpacity
             style={styles.addToCartButton}
-            onPress={() => Alert.alert("Ajouté au panier")}
+            onPress={() => {
+              dispatch(addToCart(item));  // Action pour ajouter la pizza au panier
+              Alert.alert("Ajouté au panier", `${item.name} a été ajouté au panier`);
+            }}
           >
             <Text style={styles.buttonText}>Ajouter au panier</Text>
           </TouchableOpacity>
+  
+          {/* Bouton Détails */}
           <TouchableOpacity
             style={styles.detailsButton}
             onPress={() => {
@@ -62,32 +74,37 @@ export default function ProductList() {
   );
 
   return (
-    <View style={styles.container}>
-      {loading ? (
-        <Text>Loading pizzas...</Text>
-      ) : (
-        <FlatList
-          data={pizzas}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      )}
-      {selectedPizza && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(!modalVisible)}
-        >
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>Ingrédients</Text>
-            <Text>{selectedPizza.ingredients.join(", ")}</Text>
-            <Button title="Fermer" onPress={() => setModalVisible(false)} />
-          </View>
-        </Modal>
-      )}
-    </View>
-  );
+    <Provider store={store}>
+      <View>
+        <ProductList />  {/* Premier élément */}
+        <View style={styles.container}>  {/* Deuxième élément */}
+          {loading ? (
+            <Text>Loading pizzas...</Text>
+          ) : (
+            <FlatList
+              data={pizzas}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id.toString()}
+            />
+          )}
+          {selectedPizza && (
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => setModalVisible(!modalVisible)}
+            >
+              <View style={styles.modalView}>
+                <Text style={styles.modalTitle}>Ingrédients</Text>
+                <Text>{selectedPizza.ingredients.join(", ")}</Text>
+                <Button title="Fermer" onPress={() => setModalVisible(false)} />
+              </View>
+            </Modal>
+          )}
+        </View>
+      </View>
+    </Provider>
+  );  
 }
 
 const styles = StyleSheet.create({
