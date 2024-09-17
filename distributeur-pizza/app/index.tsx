@@ -65,7 +65,7 @@ export default function Index() {
 
             {/* Bouton Voir nos pizzas */}
             <TouchableOpacity
-              onPress={() => router.push("/liste_pizzas")}
+              onPress={() => router.push("/pizzas")}
               style={styles.button}
             >
               <Text style={styles.buttonText}>Voir nos pizzas</Text>
