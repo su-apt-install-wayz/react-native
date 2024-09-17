@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Image, FlatList, TouchableOpacity, StyleSheet, Alert, Modal, Button } from "react-native";
 import axios from 'axios';
-import { store } from './redux/store';
 import { useDispatch } from 'react-redux';
-import { Provider } from 'react-redux';
 import { addToCart } from './redux/cartSlice';
+import { store } from './redux/store';
 
-// Définir l'interface Pizza pour TypeScript
 interface Pizza {
   id: number;
   name: string;
   price: number;
   image_url: string;
-  ingredients: string[];
+  description: string;
 }
 
 export default function ProductList() {
@@ -47,20 +45,18 @@ export default function ProductList() {
       <View style={styles.footer}>
         <Text style={styles.price}>{item.price}€</Text>
         <View style={styles.buttonContainer}>
-          {/* Bouton Ajouter au panier */}
           <TouchableOpacity
-            style={styles.addToCartButton}
+            style={[styles.button, styles.addToCartButton]}
             onPress={() => {
-              dispatch(addToCart(item));  // Action pour ajouter la pizza au panier
+              dispatch(addToCart(item));
               Alert.alert("Ajouté au panier", `${item.name} a été ajouté au panier`);
             }}
           >
             <Text style={styles.buttonText}>Ajouter au panier</Text>
           </TouchableOpacity>
-  
-          {/* Bouton Détails */}
+
           <TouchableOpacity
-            style={styles.detailsButton}
+            style={[styles.button, styles.detailsButton]}
             onPress={() => {
               setSelectedPizza(item);
               setModalVisible(true);
@@ -74,37 +70,32 @@ export default function ProductList() {
   );
 
   return (
-    <Provider store={store}>
-      <View>
-        <ProductList />  {/* Premier élément */}
-        <View style={styles.container}>  {/* Deuxième élément */}
-          {loading ? (
-            <Text>Loading pizzas...</Text>
-          ) : (
-            <FlatList
-              data={pizzas}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id.toString()}
-            />
-          )}
-          {selectedPizza && (
-            <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modalVisible}
-              onRequestClose={() => setModalVisible(!modalVisible)}
-            >
-              <View style={styles.modalView}>
-                <Text style={styles.modalTitle}>Ingrédients</Text>
-                <Text>{selectedPizza.ingredients.join(", ")}</Text>
-                <Button title="Fermer" onPress={() => setModalVisible(false)} />
-              </View>
-            </Modal>
-          )}
-        </View>
-      </View>
-    </Provider>
-  );  
+    <View style={styles.container}>
+      {loading ? (
+        <Text>Loading pizzas...</Text>
+      ) : (
+        <FlatList
+          data={pizzas}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      )}
+      {selectedPizza && (
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(!modalVisible)}
+        >
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>Ingrédients</Text>
+            <Text>{selectedPizza.description}</Text>
+            <Button title="Fermer" onPress={() => setModalVisible(false)} />
+          </View>
+        </Modal>
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -153,17 +144,16 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
   },
-  addToCartButton: {
-    backgroundColor: "#e06244",
+  button: {
     padding: 10,
     borderRadius: 8,
     marginLeft: 4,
   },
+  addToCartButton: {
+    backgroundColor: "#e06244",
+  },
   detailsButton: {
     backgroundColor: "#E0B044",
-    padding: 10,
-    borderRadius: 8,
-    marginLeft: 4,
   },
   buttonText: {
     color: "white",

@@ -5,7 +5,7 @@ interface Pizza {
   name: string;
   price: number;
   image_url: string;
-  ingredients: string[];
+  description: string;
 }
 
 interface CartState {
@@ -30,5 +30,4 @@ const cartSlice = createSlice({
 });
 
 export const { addToCart, removeFromCart } = cartSlice.actions;
-
 export default cartSlice.reducer;
