@@ -80,8 +80,7 @@ export default function Index() {
           />
         </View>
 
-      <Footer />
-
+        <Footer />
       </ScrollView>
     </View>
   );
