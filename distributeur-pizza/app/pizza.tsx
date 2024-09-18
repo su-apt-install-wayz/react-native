@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
   },
   quantityContainer: {
     flexDirection: "row",
+    justifyContent: 'center',
     alignItems: "center",
   },
   quantityButton: {
