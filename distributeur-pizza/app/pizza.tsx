@@ -50,8 +50,9 @@ export default function PizzaDetail({ route }: { route: { params: { id: number }
     }
 
     return (
+      <>
+        <Navbar />
         <View style={styles.container}>
-            <Navbar />
             <Image source={{ uri: pizza.image_url }} style={styles.image} />
             <View style={styles.header}>
                 <Text style={styles.headerText}>{pizza.name}</Text>
@@ -79,8 +80,9 @@ export default function PizzaDetail({ route }: { route: { params: { id: number }
                     <Text style={styles.quantityText}>+</Text>
                 </TouchableOpacity>
             </View>
-            <Footer />
         </View>
+        <Footer />
+        </>
     );
 }
 
