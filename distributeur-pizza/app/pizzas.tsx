@@ -3,7 +3,8 @@ import { Text, View, Image, FlatList, TouchableOpacity, StyleSheet, Alert, Modal
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { addToCart } from './redux/cartSlice';
-import { store } from './redux/store';
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 interface Pizza {
   id: number;
@@ -70,32 +71,36 @@ export default function ProductList() {
   );
 
   return (
-    <View style={styles.container}>
-      {loading ? (
-        <Text>Loading pizzas...</Text>
-      ) : (
-        <FlatList
-          data={pizzas}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      )}
-      {selectedPizza && (
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => setModalVisible(!modalVisible)}
-        >
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>Ingrédients</Text>
-            <Text>{selectedPizza.description}</Text>
-            <Button title="Fermer" onPress={() => setModalVisible(false)} />
-          </View>
-        </Modal>
-      )}
-    </View>
-  );
+      <>
+        <Navbar />
+        <View style={styles.container}>
+          {loading ? (
+            <Text>Loading pizzas...</Text>
+          ) : (
+            <FlatList
+              data={pizzas}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id.toString()}
+            />
+          )}
+          {selectedPizza && (
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => setModalVisible(!modalVisible)}
+            >
+              <View style={styles.modalView}>
+                <Text style={styles.modalTitle}>Ingrédients</Text>
+                <Text>{selectedPizza.description}</Text>
+                <Button title="Fermer" onPress={() => setModalVisible(false)} />
+              </View>
+            </Modal>
+          )}
+        </View>
+        <Footer />
+      </>
+    );
 }
 
 const styles = StyleSheet.create({

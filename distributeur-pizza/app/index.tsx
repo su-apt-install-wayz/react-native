@@ -79,9 +79,10 @@ export default function Index() {
             resizeMode="cover"
           />
         </View>
+        <Footer />
       </ScrollView>
 
-      <Footer />
+      
     </View>
   );
 }

@@ -10,91 +10,58 @@ import {
 } from "react-native";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
-interface Pizza {
-  id: number;
-  name: string;
-  price: number;
-  imageUrl: string;
-  quantity: number;
-}
-
-const pizzasData: Pizza[] = [
-  {
-    id: 1,
-    name: "Margherita 1",
-    price: 8.99,
-    imageUrl:
-      "https://img.cuisineaz.com/660x660/2013/12/20/i18445-margherite.jpeg",
-    quantity: 1,
-  },
-  {
-    id: 2,
-    name: "Pepperoni",
-    price: 10.99,
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Pepperoni_pizza.jpg/800px-Pepperoni_pizza.jpg",
-    quantity: 1,
-  },
-];
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from './redux/store'
+import { updateQuantity, removeFromCart } from './redux/cartSlice';
 
 export default function CartPage() {
-  const [pizzas, setPizzas] = useState<Pizza[]>(pizzasData);
+  const dispatch = useDispatch();
 
-  // Fonction pour gérer l'augmentation ou la diminution de la quantité
-  const updateQuantity = (id: number, action: "increment" | "decrement") => {
-    setPizzas((prevPizzas) =>
-      prevPizzas.map((pizza) =>
-        pizza.id === id
-          ? {
-            ...pizza,
-            quantity:
-              action === "increment"
-                ? pizza.quantity + 1
-                : pizza.quantity > 1
-                  ? pizza.quantity - 1
-                  : pizza.quantity,
-          }
-          : pizza
-      )
-    );
-  };
+  // Récupérer les éléments du panier depuis Redux
+  const cartItems = useSelector((state: RootState) => state.cart.items);
 
-  // Fonction pour supprimer une pizza du panier
-  const removePizza = (id: number) => {
-    setPizzas((prevPizzas) => prevPizzas.filter((pizza) => pizza.id !== id));
-  };
-
-  // Calcul du total
+  // Calculer le total
   const calculateTotal = () => {
-    return pizzas.reduce((acc, pizza) => acc + pizza.price * pizza.quantity, 0);
+    return cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   };
 
-  const renderItem = ({ item }: { item: Pizza }) => (
+  if (cartItems.length === 0) {
+    return (
+    <>
+      <Navbar/>
+      <View style={styles.container}>
+        <Text style={styles.emptyText}>Votre panier est vide</Text>
+      </View>
+      <Footer/>
+    </>
+    );
+  }
+
+  const renderItem = ({ item }: { item: any }) => (
     <View style={styles.item}>
       <View style={styles.header}>
         <Text style={styles.headerText}>{item.name}</Text>
         <TouchableOpacity
-          onPress={() => removePizza(item.id)}
+          onPress={() => dispatch(removeFromCart(item.id))}
           style={styles.removeButton}
         >
           <Text style={styles.removeButtonText}>X</Text>
         </TouchableOpacity>
       </View>
-      <Image source={{ uri: item.imageUrl }} style={styles.image} />
+      <Image source={{ uri: item.image_url }} style={styles.image} />
       <View style={styles.footer}>
-        <Text style={styles.price}>{item.price.toFixed(2)}€</Text>
+        <Text style={styles.price}>{item.price}€</Text>
         <View style={styles.quantityContainer}>
           <TouchableOpacity
             style={styles.quantityButton}
-            onPress={() => updateQuantity(item.id, "decrement")}
+            onPress={() => dispatch(updateQuantity({ id: item.id, action: "decrement" }))}
           >
             <Text style={styles.quantityText}>-</Text>
           </TouchableOpacity>
           <Text style={styles.quantityText}>{item.quantity}</Text>
           <TouchableOpacity
             style={styles.quantityButton}
-            onPress={() => updateQuantity(item.id, "increment")}
+            onPress={() => dispatch(updateQuantity({ id: item.id, action: "increment" }))}
           >
             <Text style={styles.quantityText}>+</Text>
           </TouchableOpacity>
@@ -104,16 +71,16 @@ export default function CartPage() {
   );
 
   return (
+    <>
+    <Navbar/>
     <View style={styles.container}>
-      <Navbar />
-
       <View style={styles.content}>
         <Text style={styles.heading}>Votre Panier</Text>
         <FlatList
-          data={pizzas}
-          renderItem={renderItem}
+          data={cartItems}
           keyExtractor={(item) => item.id.toString()}
-          style={styles.flatList} // Ajout du style flatList
+          renderItem={renderItem}
+          style={styles.flatList}
         />
         <View style={styles.totalContainer}>
           <Text style={styles.totalText}>
@@ -127,9 +94,9 @@ export default function CartPage() {
           <Text style={styles.buttonText}>Valider le panier</Text>
         </TouchableOpacity>
       </View>
-
-      <Footer />
     </View>
+    <Footer/>
+    </>
   );
 }
 
@@ -235,5 +202,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#000",
+  },
+  emptyText: {
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 400,
   },
 });
