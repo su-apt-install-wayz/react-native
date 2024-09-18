@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { addToCart } from './redux/cartSlice';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { router } from "expo-router";
 
 interface Pizza {
   id: number;
@@ -63,7 +64,14 @@ export default function ProductList() {
               setModalVisible(true);
             }}
           >
-            <Text style={styles.buttonText}>Détails</Text>
+            {/* <Text style={styles.buttonText}>Détails</Text> */}
+            
+            <TouchableOpacity
+              onPress={() => router.push("/pizza")}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Détails</Text>
+            </TouchableOpacity>
           </TouchableOpacity>
         </View>
       </View>
