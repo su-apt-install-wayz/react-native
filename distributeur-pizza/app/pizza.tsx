@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import axios from 'axios';
 import { useLocalSearchParams  } from "expo-router";
+import { updateQuantity } from './redux/cartSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from './redux/store';
 
 interface Pizza {
   id: number;
@@ -12,9 +15,14 @@ interface Pizza {
 }
 
 export default function PizzaDetail({ route }: { route: { params: { id: number } } }) {
-  const { id } = useLocalSearchParams ();
+  const { id } = useLocalSearchParams();
   const [pizza, setPizza] = useState<Pizza | null>(null);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  const cartItem = useSelector((state: RootState) =>
+    state.cart.items.find((item) => item.id === Number(id))
+  );
 
   const fetchPizza = async () => {
     try {
@@ -48,6 +56,25 @@ export default function PizzaDetail({ route }: { route: { params: { id: number }
       <View style={styles.footer}>
         <Text style={styles.price}>{pizza.price}€</Text>
         <Text style={styles.description}>{pizza.description}</Text>
+      </View>
+
+      {/* Affichage et gestion de la quantité */}
+      <View style={styles.quantityContainer}>
+        <TouchableOpacity
+          style={styles.quantityButton}
+          onPress={() => dispatch(updateQuantity({ id: Number(id), action: "decrement", pizza }))}
+        >
+          <Text style={styles.quantityText}>-</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.quantityText}>{cartItem?.quantity || 0}</Text>
+
+        <TouchableOpacity
+          style={styles.quantityButton}
+          onPress={() => dispatch(updateQuantity({ id: Number(id), action: "increment", pizza }))}
+        >
+          <Text style={styles.quantityText}>+</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -90,5 +117,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
     textAlign: "center",
+  },
+  quantityContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  quantityButton: {
+    backgroundColor: "#e06244",
+    padding: 8,
+    borderRadius: 4,
+    marginHorizontal: 4,
+    width: 30,
+  },
+  quantityText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#000",
   },
 });

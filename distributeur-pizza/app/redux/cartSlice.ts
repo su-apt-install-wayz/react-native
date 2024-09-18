@@ -29,14 +29,17 @@ const cartSlice = createSlice({
         state.items.push({ ...action.payload, quantity: 1 }); //Ajoute un nouvel article
       }
     },
-    updateQuantity(state, action: PayloadAction<{ id: number; action: 'increment' | 'decrement' }>) {
-      const item = state.items.find(item => item.id === action.payload.id);
-      if (item) {
+    updateQuantity: (state, action: PayloadAction<{ id: number; action: 'increment' | 'decrement'; pizza: CartItem }>) => {
+      const existingItem = state.items.find(item => item.id === action.payload.id);
+      if (existingItem) {
         if (action.payload.action === 'increment') {
-          item.quantity += 1;
-        } else if (action.payload.action === 'decrement' && item.quantity > 1) {
-          item.quantity -= 1;
+          existingItem.quantity += 1;
+        } else if (action.payload.action === 'decrement' && existingItem.quantity > 1) {
+          existingItem.quantity -= 1;
         }
+      } else if (action.payload.action === 'increment') {
+        // Si le produit n'est pas dans le panier et l'action est "increment", on l'ajoute avec une quantité de 1
+        state.items.push({ ...action.payload.pizza, quantity: 1 });
       }
     },
     removeFromCart(state, action: PayloadAction<number>) {
