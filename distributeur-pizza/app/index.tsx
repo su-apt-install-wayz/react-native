@@ -27,12 +27,12 @@ export default function Index() {
           }
         >
           <View style={styles.textSection}>
-            <Text style={styles.heading}>Bienvenue chez Spizico</Text>
+            <Text style={styles.heading}>Bienvenue chez Spizzico</Text>
             <Text style={styles.subtitle}>
               Une tradition culinaire depuis 1950
             </Text>
             <Text style={styles.description}>
-              Depuis sa fondation en 1950, Spizico incarne la quintessence de la
+              Depuis sa fondation en 1950, Spizzico incarne la quintessence de la
               pizza italienne authentique à Rome, dans le quartier pittoresque
               de Trastevere. Fondée par Giovanni Rossi, un passionné de cuisine
               italienne, notre pizzeria a su conquérir le cœur et les papilles
@@ -43,7 +43,7 @@ export default function Index() {
               Une recette familiale, une tradition préservée
             </Text>
             <Text style={styles.description}>
-              Nichée dans le quartier historique de Trastevere, Spizico a été le
+              Nichée dans le quartier historique de Trastevere, Spizzico a été le
               fruit de la recette originale de Giovanni, inspirée des traditions
               culinaires napolitaines. Cette recette, inchangée depuis sa
               création, utilise des ingrédients simples soigneusement
@@ -55,7 +55,7 @@ export default function Index() {
               Une expérience gastronomique inégalée
             </Text>
             <Text style={styles.description}>
-              Devenue une institution locale au fil des décennies, Spizico est
+              Devenue une institution locale au fil des décennies, Spizzico est
               réputée pour son ambiance conviviale et accueillante, où familles,
               amis et passionnés de cuisine se réunissent pour savourer des
               moments uniques. Notre menu, enrichi tout en respectant nos
@@ -79,10 +79,9 @@ export default function Index() {
             resizeMode="cover"
           />
         </View>
+
         <Footer />
       </ScrollView>
-
-      
     </View>
   );
 }
@@ -90,16 +89,14 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: "100%",
-    justifyContent: "space-between",
+    height: '100%',
     backgroundColor: "#fff",
   },
   scrollContainer: {
     marginTop: 100,
-    flexGrow: 1, // Permet au contenu de grandir avec le ScrollView
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 20,
   },
   presentationRow: {
     flexDirection: "row",
