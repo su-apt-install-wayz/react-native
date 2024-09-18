@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     maxWidth: 130,
+    height: 100,
     resizeMode: "contain",
   },
   cartButton: {
