@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Image, StyleSheet } from "react-native";
 import axios from 'axios';
+import { useLocalSearchParams  } from "expo-router";
 
 interface Pizza {
   id: number;
@@ -11,12 +12,11 @@ interface Pizza {
 }
 
 export default function PizzaDetail({ route }: { route: { params: { id: number } } }) {
+  const { id } = useLocalSearchParams ();
   const [pizza, setPizza] = useState<Pizza | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchPizza = async () => {
-    const id  = 5;
-    // const { id } = route.params;
     try {
       const response = await axios.get(`http://192.168.1.154:3000/pizzas/${id}`);
       setPizza(response.data);

@@ -60,18 +60,13 @@ export default function ProductList() {
           <TouchableOpacity
             style={[styles.button, styles.detailsButton]}
             onPress={() => {
-              setSelectedPizza(item);
-              setModalVisible(true);
+              router.push({
+                pathname: "/pizza",
+                params: { id: item.id },
+              });
             }}
-          >
-            {/* <Text style={styles.buttonText}>Détails</Text> */}
-            
-            <TouchableOpacity
-              onPress={() => router.push("/pizza")}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>Détails</Text>
-            </TouchableOpacity>
+          >            
+            <Text style={styles.buttonText}>Détails</Text>
           </TouchableOpacity>
         </View>
       </View>
