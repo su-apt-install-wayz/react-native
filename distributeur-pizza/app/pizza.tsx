@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import axios from 'axios';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useLocalSearchParams } from "expo-router";
-import { updateQuantity } from './redux/cartSlice';
+import { updateQuantity, addToCart } from './redux/cartSlice'; // Importer `addToCart`
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './redux/store';
+import { useRouter } from "expo-router"; // Assurez-vous d'importer useRouter
 
 interface Pizza {
     id: number;
@@ -17,11 +18,14 @@ interface Pizza {
 }
 
 export default function PizzaDetail({ route }: { route: { params: { id: number } } }) {
+    
+  const router = useRouter(); // Utilisation de useRouter pour la navigation
     const { id } = useLocalSearchParams();
     const [pizza, setPizza] = useState<Pizza | null>(null);
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch();
 
+    // Récupérer l'état du panier pour cette pizza
     const cartItem = useSelector((state: RootState) =>
         state.cart.items.find((item) => item.id === Number(id))
     );
@@ -41,10 +45,12 @@ export default function PizzaDetail({ route }: { route: { params: { id: number }
         fetchPizza();
     }, []);
 
+    // Si la page est en cours de chargement
     if (loading) {
         return <Text>Loading pizza details...</Text>;
     }
 
+    // Si la pizza n'est pas trouvée
     if (!pizza) {
         return <Text>Pizza not found</Text>;
     }
@@ -66,23 +72,35 @@ export default function PizzaDetail({ route }: { route: { params: { id: number }
             <View style={styles.quantityContainer}>
                 <TouchableOpacity
                     style={styles.quantityButton}
-                    onPress={() => dispatch(updateQuantity({ id: Number(id), action: "decrement", pizza }))}
+                    onPress={() => dispatch(updateQuantity({ id: Number(id), action: "decrement", pizza }))} // Diminuer la quantité
                 >
                     <Text style={styles.quantityText}>-</Text>
                 </TouchableOpacity>
 
-                <Text style={styles.quantityText}>{cartItem?.quantity || 0}</Text>
+                <Text style={styles.quantityText}>{cartItem?.quantity || 1}</Text>
 
                 <TouchableOpacity
                     style={styles.quantityButton}
-                    onPress={() => dispatch(updateQuantity({ id: Number(id), action: "increment", pizza }))}
+                    onPress={() => dispatch(updateQuantity({ id: Number(id), action: "increment", pizza }))} // Augmenter la quantité
                 >
                     <Text style={styles.quantityText}>+</Text>
                 </TouchableOpacity>
             </View>
+
+            {/* Bouton pour ajouter la pizza au panier */}
+            <TouchableOpacity
+                style={styles.addToCartButton}
+                onPress={() => {
+                    dispatch(addToCart({... pizza, quantity: cartItem?.quantity || 1}));  // Ajouter la pizza au panier
+                    router.push("/cart");
+                    Alert.alert("Ajouté au panier", `${pizza.name} a été ajouté au panier`);
+                }}
+            >
+                <Text style={styles.buttonText}>Ajouter au panier</Text>
+            </TouchableOpacity>
         </View>
         <Footer />
-        </>
+      </>
     );
 }
 
@@ -129,6 +147,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: 'center',
         alignItems: "center",
+        marginTop: 10,
     },
     quantityButton: {
         backgroundColor: "#e06244",
@@ -142,5 +161,17 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         color: "#000",
+    },
+    addToCartButton: {
+        backgroundColor: "#E0B044",
+        padding: 10,
+        borderRadius: 8,
+        marginTop: 20,
+    },
+    buttonText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold",
+        textAlign: "center",
     },
 });

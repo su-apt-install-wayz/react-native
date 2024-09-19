@@ -24,12 +24,12 @@ const cartSlice = createSlice({
     addToCart(state, action: PayloadAction<Pizza>) {
       const existingItem = state.items.find(item => item.id === action.payload.id);
       if (existingItem) {
-        existingItem.quantity += 1; //Augmente la quantité si l'article existe déjà
+        state.items.push({ ...action.payload, quantity: existingItem.quantity }); //Augmente la quantité si l'article existe déjà
       } else {
         state.items.push({ ...action.payload, quantity: 1 }); //Ajoute un nouvel article
       }
     },
-    updateQuantity: (state, action: PayloadAction<{ id: number; action: 'increment' | 'decrement'; pizza: CartItem }>) => {
+    updateQuantity: (state, action: PayloadAction<{ id: number; action: 'increment' | 'decrement'; pizza: any }>) => {
       const existingItem = state.items.find(item => item.id === action.payload.id);
       if (existingItem) {
         if (action.payload.action === 'increment') {
