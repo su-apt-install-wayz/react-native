@@ -23,7 +23,7 @@ export default function ProductList() {
 
   const fetchPizzas = async () => {
     try {
-      const response = await axios.get('http://192.168.1.154:3000/pizzas');
+      const response = await axios.get('http://localhost:3000/pizzas');
       setPizzas(response.data);
     } catch (error) {
       console.error(error);
@@ -50,7 +50,7 @@ export default function ProductList() {
           <TouchableOpacity
             style={[styles.button, styles.addToCartButton]}
             onPress={() => {
-              dispatch(addToCart(item));
+              // dispatch(addToCart(item));
               Alert.alert("Ajouté au panier", `${item.name} a été ajouté au panier`);
             }}
           >
