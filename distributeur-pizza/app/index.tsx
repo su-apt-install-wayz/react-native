@@ -65,6 +65,9 @@ export default function Index() {
 
             {/* Bouton Voir nos pizzas */}
             <TouchableOpacity
+              accessible={true}
+              accessibilityHint="Appuyez pour voir le menu des pizzas"
+              accessibilityLabel="Voir nos pizzas"
               onPress={() => router.push("/pizzas")}
               style={styles.button}
             >
