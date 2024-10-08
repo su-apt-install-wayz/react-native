@@ -12,11 +12,12 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { router } from "expo-router";
 
+
 const { width } = Dimensions.get("window");
 
 export default function Index() {
   return (
-    <View style={styles.container}>
+    <View style={styles.container} accessibilityLanguage="fr-FR">
       <Navbar />
 
       {/* Utiliser ScrollView pour permettre le défilement */}
@@ -25,10 +26,11 @@ export default function Index() {
           style={
             width > 950 ? styles.presentationRow : styles.presentationColumn
           }
+          accessibilityLanguage="fr-FR"
         >
           <View style={styles.textSection}>
-            <Text style={styles.heading}>Bienvenue chez Spizzico</Text>
-            <Text style={styles.subtitle}>
+            <Text style={styles.heading} accessibilityLanguage="fr-FR">Bienvenue chez Spizzico</Text>
+            <Text style={styles.subtitle} accessibilityLanguage="fr-FR">
               Une tradition culinaire depuis 1950
             </Text>
             <Text style={styles.description}>
@@ -39,10 +41,10 @@ export default function Index() {
               de plusieurs générations de clients fidèles.
             </Text>
 
-            <Text style={styles.subtitle}>
+            <Text style={styles.subtitle} accessibilityLanguage="fr-FR">
               Une recette familiale, une tradition préservée
             </Text>
-            <Text style={styles.description}>
+            <Text style={styles.description} accessibilityLanguage="fr-FR">
               Nichée dans le quartier historique de Trastevere, Spizzico a été le
               fruit de la recette originale de Giovanni, inspirée des traditions
               culinaires napolitaines. Cette recette, inchangée depuis sa
@@ -51,10 +53,10 @@ export default function Index() {
               perfection dans notre four à bois traditionnel.
             </Text>
 
-            <Text style={styles.subtitle}>
+            <Text style={styles.subtitle} accessibilityLanguage="fr-FR">
               Une expérience gastronomique inégalée
             </Text>
-            <Text style={styles.description}>
+            <Text style={styles.description} accessibilityLanguage="fr-FR">
               Devenue une institution locale au fil des décennies, Spizzico est
               réputée pour son ambiance conviviale et accueillante, où familles,
               amis et passionnés de cuisine se réunissent pour savourer des
@@ -68,10 +70,11 @@ export default function Index() {
               accessible={true}
               accessibilityHint="Appuyez pour voir le menu des pizzas"
               accessibilityLabel="Voir nos pizzas"
+              accessibilityLanguage="fr-FR"
               onPress={() => router.push("/pizzas")}
               style={styles.button}
             >
-              <Text style={styles.buttonText}>Voir nos pizzas</Text>
+              <Text style={styles.buttonText} accessibilityLanguage="fr-FR">Voir nos pizzas</Text>
             </TouchableOpacity>
           </View>
 

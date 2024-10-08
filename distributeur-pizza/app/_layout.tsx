@@ -11,6 +11,7 @@ export default function RootLayout() {
         <Stack.Screen options={{ headerShown: false }} name="pizzas" />
         <Stack.Screen options={{ headerShown: false }} name="pizza" />
         <Stack.Screen options={{ headerShown: false }} name="cart" />
+        <Stack.Screen options={{ headerShown: false }} name="login" />
       </Stack>
     </Provider>
   );

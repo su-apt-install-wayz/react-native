@@ -3,8 +3,14 @@ import { View, Image, StyleSheet } from 'react-native';
 
 const Footer = () => {
   return (
-    <View style={styles.footer}>
-      <Image source={require('../assets/logo_footer.png')} style={styles.logo} />
+    <View style={styles.footer} accessibilityLanguage="fr-FR">
+      <Image
+        source={require('../assets/logo_footer.png')}
+        style={styles.logo}
+        accessible={true}
+        accessibilityLabel="Logo Spizzico"
+        accessibilityHint="Ceci est le logo du restaurant Spizzico"
+      />
     </View>
   );
 };
