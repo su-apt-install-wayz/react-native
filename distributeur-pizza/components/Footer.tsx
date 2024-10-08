@@ -9,7 +9,7 @@ const Footer = () => {
         style={styles.logo}
         accessible={true}
         accessibilityLabel="Logo Spizzico"
-        accessibilityHint="Ceci est le logo du restaurant Spizzico"
+        accessibilityHint="Logo du restaurant Spizzico"
       />
     </View>
   );

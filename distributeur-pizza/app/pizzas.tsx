@@ -23,7 +23,7 @@ export default function ProductList() {
 
   const fetchPizzas = async () => {
     try {
-      const response = await axios.get('http://192.168.1.154:3000/pizzas');
+      const response = await axios.get('http://192.168.1.12:3000/pizzas');
       setPizzas(response.data);
     } catch (error) {
       console.error(error);

@@ -14,7 +14,7 @@ const Navbar = () => {
         accessibilityLanguage="fr-FR"
         accessible={true}
         accessibilityLabel="Retour à l'accueil"
-        accessibilityHint="Appuyez pour revenir à la page d'accueil"
+        accessibilityHint="Appuyez pour retourner à la page d'accueil"
         accessibilityRole="button"
       >
         <Image source={require("../assets/logo.png")} style={styles.logo} />
@@ -26,7 +26,7 @@ const Navbar = () => {
         accessibilityLanguage="fr-FR"
         accessible={true}
         accessibilityLabel="page de login"
-        accessibilityHint="Appuyez pour allez sur la page de login"
+        accessibilityHint="Appuyez pour aller sur la page de login"
         accessibilityRole="button"
       >
         <Text accessibilityLanguage="fr-FR">

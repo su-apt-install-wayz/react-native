@@ -14,5 +14,5 @@ export default function RootLayout() {
         <Stack.Screen options={{ headerShown: false }} name="login" />
       </Stack>
     </Provider>
-  );
+  ); 
 }
